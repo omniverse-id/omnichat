@@ -1,0 +1,8 @@
+services:
+  omnichat:
+    image: ghcr.io/olegshulyakov/omnichat:latest
+    container_name: omnichat
+    mem_limit: 64m
+    restart: unless-stopped
+    ports:
+      - '80:80'

@@ -1,0 +1,128 @@
+@use 'tailwindcss';
+
+@plugin 'daisyui' {
+  themes: all;
+}
+
+/* Highlight.js */
+@import url(highlight.js.scss);
+
+.lucide {
+  stroke-width: 1.5px;
+}
+
+html {
+}
+
+.markdown {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  ul,
+  ol,
+  li {
+    all: revert;
+  }
+  ul,
+  ol {
+    @apply ps-5;
+  }
+  pre {
+    @apply whitespace-pre-wrap rounded-lg p-2 mb-3;
+    border: 1px solid currentColor;
+  }
+  p {
+    @apply mb-2;
+  }
+  hr {
+    @apply my-4 border-base-content/20 border-1;
+  }
+  table {
+    @apply w-full border-collapse text-sm font-sans my-4 text-base-content;
+  }
+  thead {
+    @apply bg-base-200 text-base-content;
+  }
+  th {
+    @apply border border-base-300 px-4 py-2 text-left font-semibold;
+  }
+  td {
+    @apply border border-base-300 px-4 py-2 align-top;
+  }
+  tbody tr:nth-child(even) {
+    @apply bg-base-100;
+  }
+  tbody tr:hover {
+    @apply bg-base-200;
+  }
+}
+
+.chat-screen {
+  max-width: 900px;
+}
+
+.chat-bubble {
+  @apply break-words max-sm:px-2;
+}
+
+.markdown pre {
+  @apply border-0 overflow-x-auto;
+}
+
+.katex-display {
+  margin: 0 0 !important;
+}
+
+/* ===== Auto-hiding Scrollbar Styles ===== */
+
+/* For Webkit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+
+/* On hover over any scrollable area, make the thumb visible */
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.5); /* Semi-transparent #888 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Opaque #555 on thumb hover */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  /* A very subtle, semi-transparent scrollbar by default */
+  scrollbar-color: rgba(136, 136, 136, 0.3) transparent;
+}
+
+/* On hover, make it more prominent. This has limitations as explained. */
+*:hover {
+  scrollbar-color: #888 transparent;
+}
+
+.chat-end .chat-bubble {
+  border-radius: 0.675rem 0 0.675rem 0.675rem;
+}
+
+.chat-start .chat-bubble {
+  border-radius: 0 0.675rem 0.675rem 0.675rem;
+}
+
+.chat-end .chat-bubble:before,
+.chat-start .chat-bubble:before {
+  display: none;
+}

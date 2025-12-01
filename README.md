@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Omnichat: A Minimal Interface for Local AI Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Omnichat** is an open-source desktop application providing a clean, user-friendly interface for interacting with **Large Language Models (LLMs)** powered by `llama.cpp`. Designed with a focus on simplicity and privacy, this project lets you chat with powerful quantized models **locally on your machine**, requiring no cloud connection.
 
-Currently, two official plugins are available:
+This repository is a fork of the `llama.cpp` WebUI with improvements focused on:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Refreshed Styling**
+- **Extra Functionality**
+- **Smoother User Experience**
 
-## React Compiler
+![welcome-screen](public/screenshots/desktop.png)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Key Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Flexible Integration
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Supports multiple inference providers, including **llama.cpp, LM Studio, Ollama, vLLM, OpenAI,** and many more.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Conversation Management
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **IndexedDB** storage for conversations.
+- **Branching conversation** support, allowing message edits while preserving history.
+- **Import/Export** functionality.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Rich User Interface (UI)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Markdown rendering** with syntax highlighting.
+- **LaTeX math** support.
+- File **attachments** (text, images, PDFs).
+- Theme customization using **DaisyUI**.
+- Responsive design for mobile and desktop.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Advanced Capabilities
+
+- **PWA (Progressive Web App)** support with offline capabilities.
+- **Streaming responses** via Server-Sent Events.
+- Customizable generation parameters.
+- Performance metrics display.
+
+### Core Principles
+
+- **Privacy Focused**: All data is stored locally in your browser—no cloud required.
+- **Localized Interface**: Most popular language packs are included and can be selected at any time.
+
+---
+
+## Getting Started
+
+You have two primary ways to run Omnichat:
+
+### 1. Standalone Mode (Zero Installation)
+
+This method assumes your local `llama.cpp` server is already running (e.g., at `http://localhost:8080`).
+
+1. Open our hosted UI instance at [https://omnichat.io/](https://omnichat.io/).
+2. Navigate to General settings (gear icon).
+3. Set the **"Base URL"** to your local `llama.cpp` server address (e.g., `http://localhost:8080`).
+4. Start chatting with your AI.
+
+<details>
+<summary><b>Note: Handling HTTPS/HTTP Conflict</b></summary>
+<br>
+If you run the UI from an **HTTPS** address and your `llama.cpp` server uses **HTTP**, browsers will block the requests. You can use a tool like **mitmproxy** to create an HTTPS-to-HTTP bridge:
+
+**Local mitmdump Setup:**
+
+```bash
+mitmdump -p 8443 --mode reverse:http://localhost:8080/
 ```
