@@ -1,205 +1,115 @@
-@import 'tailwindcss';
-
-/* Highlight.js */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import url(highlight.js.scss);
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.14 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.14 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.14 0 0);
-  --primary: oklch(0.20 0 0);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.20 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.56 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.20 0 0);
-  --destructive: oklch(0.58 0.24 28.48);
-  --border: oklch(0.92 0 0);
-  --input: oklch(0.92 0 0);
-  --ring: oklch(0.71 0 0);
-  --sidebar: oklch(0.99 0 0);
-  --sidebar-foreground: oklch(0.14 0 0);
-  --sidebar-primary: oklch(0.20 0 0);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.20 0 0);
-  --sidebar-border: oklch(0.92 0 0);
-  --radius: 0.625rem;
-}
+@layer base {
+  html {
+    @apply bg-background text-foreground;
+  }
 
-.dark {
-  --background: oklch(0.14 0 0);
-  --foreground: oklch(0.99 0 0);
-  --card: oklch(0.20 0 0);
-  --card-foreground: oklch(0.99 0 0);
-  --popover: oklch(0.20 0 0);
-  --popover-foreground: oklch(0.99 0 0);
-  --primary: oklch(0.92 0 0);
-  --primary-foreground: oklch(0.20 0 0);
-  --secondary: oklch(0.27 0 0);
-  --secondary-foreground: oklch(0.99 0 0);
-  --muted: oklch(0.27 0 0);
-  --muted-foreground: oklch(0.71 0 0);
-  --accent: oklch(0.27 0 0);
-  --accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.70 0.19 22.23);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.56 0 0);
-  --sidebar: oklch(0.20 0 0);
-  --sidebar-foreground: oklch(0.99 0 0);
-  --sidebar-primary: oklch(0.92 0 0);
-  --sidebar-primary-foreground: oklch(0.20 0 0);
-  --sidebar-accent: oklch(0.27 0 0);
-  --sidebar-accent-foreground: oklch(0.99 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-}
+  .dark {
+    @apply bg-[#141414] text-[#f7f7f7];
+  }
 
-.lucide {
-  stroke-width: 1.5px;
-}
+  body {
+    @apply bg-background text-foreground transition-colors;
+  }
 
-html {
-  background-color: hsl(var(--background));
-}
+  .lucide {
+    stroke-width: 1.5px;
+  }
 
-.markdown {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  ul,
-  ol,
-  li {
-    all: revert;
+  button {
+    dir: auto;
   }
-  ul,
-  ol {
-    @apply ps-5;
-  }
-  pre {
-    @apply whitespace-pre-wrap rounded-lg p-2 mb-3;
-    border: 1px solid currentColor;
-  }
-  p {
-    @apply mb-2;
-  }
-  hr {
-    @apply my-4 border-border border-1;
-  }
-  table {
-    @apply w-full border-collapse text-sm font-sans my-4 text-foreground;
-  }
-  thead {
-    @apply bg-muted text-foreground;
-  }
-  th {
-    @apply border border-border px-4 py-2 text-left font-semibold;
-  }
-  td {
-    @apply border border-border px-4 py-2 align-top;
-  }
-  tbody tr:nth-child(even) {
-    @apply bg-background;
-  }
-  tbody tr:hover {
-    @apply bg-muted;
+
+  input, textarea, select {
+    @apply transition-colors;
   }
 }
 
-.chat-screen {
-  max-width: 900px;
+@layer base {
+  .markdown {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    ol,
+    li {
+      all: revert;
+    }
+    ul,
+    ol {
+      @apply ps-5;
+    }
+    pre {
+      @apply whitespace-pre-wrap rounded-lg p-2 mb-3;
+      border: 1px solid currentColor;
+    }
+    p {
+      @apply mb-2;
+    }
+    hr {
+      @apply my-4 border-border border-1;
+    }
+    table {
+      @apply w-full border-collapse text-sm font-sans my-4 text-foreground;
+    }
+    thead {
+      @apply bg-muted text-foreground;
+    }
+    th {
+      @apply border border-border px-4 py-2 text-left font-semibold;
+    }
+    td {
+      @apply border border-border px-4 py-2 align-top;
+    }
+    tbody tr:nth-child(even) {
+      @apply bg-background;
+    }
+    tbody tr:hover {
+      @apply bg-muted;
+    }
+  }
 }
 
-.chat-bubble {
-  @apply break-words max-sm:px-2;
-}
+@layer components {
+  .chat-end .chat-bubble {
+    border-radius: 0.675rem 0 0.675rem 0.675rem;
+    @apply bg-primary text-primary-foreground;
+  }
 
-.markdown pre {
-  @apply border-0 overflow-x-auto;
-}
+  .chat-start .chat-bubble {
+    border-radius: 0 0.675rem 0.675rem 0.675rem;
+    @apply bg-muted text-muted-foreground;
+  }
 
-.katex-display {
-  margin: 0 0 !important;
-}
+  .chat-end .chat-bubble:before,
+  .chat-start .chat-bubble:before {
+    display: none;
+  }
 
-/* ===== Auto-hiding Scrollbar Styles ===== */
+  button {
+    dir: auto;
+  }
 
-/* For Webkit-based browsers (Chrome, Safari, Edge) */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
+  input[type='checkbox'].drawer-toggle {
+    @apply hidden xl:inline;
+  }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+  .drawer-side {
+    @apply fixed inset-y-0 left-0 z-40 w-96 max-w-full flex-col;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 4px;
-}
+  .drawer-overlay {
+    @apply fixed inset-0 bg-black/50 backdrop-blur-sm;
+  }
 
-/* On hover over any scrollable area, make the thumb visible */
-*:hover::-webkit-scrollbar-thumb {
-  background: rgba(136, 136, 136, 0.5); /* Semi-transparent #888 */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Opaque #555 on thumb hover */
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin;
-  /* A very subtle, semi-transparent scrollbar by default */
-  scrollbar-color: rgba(136, 136, 136, 0.3) transparent;
-}
-
-/* On hover, make it more prominent. This has limitations as explained. */
-*:hover {
-  scrollbar-color: #888 transparent;
-}
-
-.chat-end .chat-bubble {
-  border-radius: 0.675rem 0 0.675rem 0.675rem;
-  @apply bg-primary text-primary-foreground;
-}
-
-.chat-start .chat-bubble {
-  border-radius: 0 0.675rem 0.675rem 0.675rem;
-  @apply bg-muted text-muted-foreground;
-}
-
-.chat-end .chat-bubble:before,
-.chat-start .chat-bubble:before {
-  display: none;
-}
-
-/* Button overrides for compatibility */
-button {
-  dir: auto;
-}
-
-input[type='checkbox'].drawer-toggle {
-  @apply hidden xl:inline;
-}
-
-.drawer-side {
-  @apply fixed inset-y-0 left-0 z-40 w-96 max-w-full flex-col;
-}
-
-.drawer-overlay {
-  @apply fixed inset-0 bg-black/50 backdrop-blur-sm;
-}
-
-.drawer-overlay[aria-label] {
-  @apply cursor-pointer;
+  .drawer-overlay[aria-label] {
+    @apply cursor-pointer;
+  }
 }
