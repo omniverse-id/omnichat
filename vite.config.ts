@@ -169,6 +169,7 @@ export default defineConfig({
     },
   },
   server: {
+    allowedHosts: ['sb-461szcno6cg3.vercel.run', 'localhost', '127.0.0.1'],
     proxy: {
       '/v1': 'http://localhost:8080',
       '/props': 'http://localhost:8080',

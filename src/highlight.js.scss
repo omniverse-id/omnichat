@@ -5,7 +5,7 @@
   @media (prefers-color-scheme: light) {
     @include meta.load-css('highlight.js/styles/stackoverflow-light');
     .dark-color {
-      @apply bg-base-content text-base-100;
+      @apply bg-foreground text-background;
     }
   }
   @media (prefers-color-scheme: dark) {
@@ -18,7 +18,7 @@
     @media (prefers-color-scheme: light) {
       @include meta.load-css('highlight.js/styles/stackoverflow-light');
       .dark-color {
-        @apply bg-base-content text-base-100;
+        @apply bg-foreground text-background;
       }
     }
     @media (prefers-color-scheme: dark) {
