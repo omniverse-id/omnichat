@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
 import loadVersion from 'vite-plugin-package-version';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -8,6 +9,7 @@ const vendors = ['highlight', 'katex', 'pdfjs', 'radix-ui', 'react-icons'];
 
 export default defineConfig({
   plugins: [
+    tailwindcss(),
     react(),
     loadVersion(),
     VitePWA({
