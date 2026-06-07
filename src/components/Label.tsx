@@ -1,24 +1,24 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { cn } from '../utils';
+import { cn } from '../lib/utils';
 
-const LabelVariants = cva('', {
+const LabelVariants = cva('text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70', {
   variants: {
     variant: {
       default: '',
-      'group-title': 'block font-bold text-base-content text-start',
+      'group-title': 'block font-bold text-foreground text-start opacity-75',
       'fake-btn': 'text-center cursor-pointer',
-      btn: 'btn',
-      'btn-ghost': 'btn btn-ghost border-none',
-      'form-control': 'form-control flex flex-col justify-center',
+      btn: 'inline-flex items-center justify-center',
+      'btn-ghost': 'hover:bg-accent hover:text-accent-foreground rounded-md px-3 py-2',
+      'form-control': 'flex flex-col justify-center',
       'input-bordered':
-        'input input-bordered join-item grow flex items-center gap-2 focus-within:outline-1 focus-within:outline-offset-0'
+        'flex items-center gap-2 border border-input rounded-md px-3 py-2 bg-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'
     },
     size: {
       default: '',
       xs: 'text-xs',
       icon: 'w-8 h-8 p-0',
-      'icon-xl': 'w-8 h-8 p-0 rounded-[8px]',
+      'icon-xl': 'w-8 h-8 p-0 rounded-md',
     },
   },
   defaultVariants: {

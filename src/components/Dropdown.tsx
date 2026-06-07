@@ -1,10 +1,9 @@
 import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LuChevronDown } from 'react-icons/lu';
+import { ChevronDown } from 'lucide-react';
 import { isDev } from '../config';
 import { classNames } from '../utils';
 import { Button } from './Button';
-import { Icon } from './Icon';
 import { Input } from './Input';
 
 export interface DropdownOption {
@@ -45,15 +44,13 @@ export function Dropdown<T extends DropdownOption>({
   filterable = false,
   hideChevron = false,
   optionsSize = 'medium',
-  align = 'end',
-  placement = 'bottom',
   currentValue,
   renderOption,
   isSelected,
   onSelect,
 }: DropdownProps<T>) {
   const { t } = useTranslation();
-  const dropdownRef = useRef<HTMLDetailsElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<string>('');
   const isDisabled = useMemo<boolean>(() => options.length < 2, [options]);
   const filteredOptions = useMemo(() => {
@@ -89,7 +86,7 @@ export function Dropdown<T extends DropdownOption>({
   }
 
   return (
-    <div className={`${className ?? ''} flex`}>
+    <div className={`${className ?? ''} flex grow`}>
       {/* disabled dropdown */}
       {isDisabled && (
         <div
@@ -103,29 +100,27 @@ export function Dropdown<T extends DropdownOption>({
 
       {/* dropdown */}
       {!isDisabled && (
-        <details
+        <div
           ref={dropdownRef}
-          className={`grow dropdown dropdown-${align} dropdown-${placement}`}
+          className="grow relative group"
         >
-          <summary
-            className="grow truncate flex justify-between items-center cursor-pointer"
+          <button
+            className="grow truncate flex justify-between items-center cursor-pointer hover:bg-accent rounded-md px-3 py-2 transition-colors w-full text-left"
             title={entity}
             aria-label={t('dropdown.chooseEntity', { entity })}
             aria-haspopup="listbox"
           >
             {currentValue}
             {!hideChevron && (
-              <Icon variant="rightside" size="md">
-                <LuChevronDown />
-              </Icon>
+              <ChevronDown className="h-4 w-4 ml-2 flex-shrink-0" />
             )}
-          </summary>
+          </button>
 
           {/* dropdown content */}
-          <div className="dropdown-content rounded-box bg-base-100 max-w-60 p-2 shadow-2xl">
+          <div className="absolute top-full left-0 right-0 mt-1 rounded-md bg-popover text-popover-foreground max-w-60 p-2 shadow-lg border border-border hidden group-hover:block z-50">
             {filterable && (
               <Input
-                className="input-sm w-full focus:outline-base-content/30 p-2 mb-2 rounded-[8px]"
+                className="w-full p-2 mb-2 rounded-md text-sm"
                 variant="input"
                 placeholder={t('dropdown.searchPlaceholder', { entity })}
                 value={filter}
@@ -135,7 +130,7 @@ export function Dropdown<T extends DropdownOption>({
             )}
 
             {filteredOptions.length === 0 && (
-              <div className="p-2 text-sm">{t('dropdown.noOptions')}</div>
+              <div className="p-2 text-sm text-muted-foreground">{t('dropdown.noOptions')}</div>
             )}
 
             {filteredOptions.length > 0 && (
@@ -151,11 +146,13 @@ export function Dropdown<T extends DropdownOption>({
                     <Button
                       className={classNames({
                         'w-full flex gap-2 justify-start font-normal px-2': true,
-                        'rounded-[8px]': true,
-                        'btn-sm': optionsSize === 'small',
-                        'btn-active': isSelected(option),
+                        'rounded-md': true,
+                        'h-9': optionsSize !== 'small',
+                        'h-8': optionsSize === 'small',
+                        'bg-accent': isSelected(option),
                       })}
-                      variant="ghost"
+                      variant={isSelected(option) ? 'default' : 'ghost'}
+                      size={optionsSize === 'small' ? 'small' : 'default'}
                       onClick={handleSelect(option)}
                       aria-label={`${option.label} ${isSelected(option) ? 'selected' : 'option'}`}
                     >
@@ -166,7 +163,7 @@ export function Dropdown<T extends DropdownOption>({
               </ul>
             )}
           </div>
-        </details>
+        </div>
       )}
     </div>
   );

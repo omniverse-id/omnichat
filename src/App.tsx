@@ -47,10 +47,10 @@ const AppLayout: FC = () => {
   return (
     <>
       <Sidebar />
-      <div className="flex flex-col w-full h-screen px-1 md:px-2 bg-base-100">
+      <div className="flex flex-col w-full h-screen px-1 md:px-2 bg-background">
         <Header />
         <main
-          className="grow flex flex-col overflow-auto bg-base-100 rounded-xl border-1 border-base-content/20 dark:border-base-content/10 border-input"
+          className="grow flex flex-col overflow-auto bg-background rounded-lg border border-border"
           id="main-scroll"
         >
           <Outlet />

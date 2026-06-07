@@ -2,15 +2,13 @@
 
 import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { LuSettings, LuPanelLeftOpen, LuSquarePen } from "react-icons/lu"
+import { Settings, PanelLeftOpen, SquarePen } from "lucide-react"
 import { useNavigate } from "react-router"
 import { useAppContext } from "../store/app"
 import { useChatContext } from "../store/chat"
 import { useInferenceContext } from "../store/inference"
 import { Button } from "./Button"
 import { Dropdown } from "./Dropdown"
-import { Icon } from "./Icon"
-import { Label } from "./Label"
 
 export default function Header() {
   const navigate = useNavigate()
@@ -41,18 +39,16 @@ export default function Header() {
     <header className="flex flex-col gap-2 justify-center max-md:pb-2 md:py-2 sticky top-0 pt-2 z-10">
       <section className="flex flex-row items-center xl:hidden">
         {/* open sidebar button */}
-        <Label variant="btn-ghost" size="icon" htmlFor="toggle-drawer">
-          <Icon size="md">
-            <LuPanelLeftOpen />
-          </Icon>
-        </Label>
+        <label htmlFor="toggle-drawer">
+          <Button variant="ghost" size="icon-xl" className="cursor-pointer">
+            <PanelLeftOpen className="h-5 w-5" />
+          </Button>
+        </label>
 
         {/* spacer */}
-        <Label
-          variant="fake-btn"
-          className="grow font-medium truncate px-4"
+        <button
+          className="grow font-medium truncate px-4 text-center cursor-pointer hover:bg-accent rounded-md transition-colors"
           aria-label={title}
-          role="button"
           onClick={() => {
             if (showSettings) return
             if (currConv) navigate(`/chat/${currConv.id}`)
@@ -60,7 +56,7 @@ export default function Header() {
           }}
         >
           {title}
-        </Label>
+        </button>
 
         {/* new conversation button */}
         <Button
@@ -70,17 +66,15 @@ export default function Header() {
           title={t("header.buttons.newConv")}
           aria-label={t("header.ariaLabels.newConv")}
         >
-          <Icon size="md">
-            <LuSquarePen />
-          </Icon>
+          <SquarePen className="h-5 w-5" />
         </Button>
       </section>
 
       {showSettings && (
         <section className="flex items-center max-xl:hidden">
-          <Label className="font-medium truncate text-center px-4" aria-label={title}>
+          <div className="font-medium truncate text-center px-4 grow" role="heading" aria-level={1}>
             {title}
-          </Label>
+          </div>
         </section>
       )}
 
@@ -98,9 +92,7 @@ export default function Header() {
               pointerEvents: isSidebarOpen ? "none" : "auto",
             }}
           >
-            <Icon size="md">
-              <LuPanelLeftOpen />
-            </Icon>
+            <PanelLeftOpen className="h-5 w-5" />
           </Button>
 
           {/* model information */}
@@ -137,10 +129,7 @@ export default function Header() {
               aria-label={t("header.ariaLabels.settings")}
               onClick={() => navigate("/settings")}
             >
-              {/* settings button */}
-              <Icon size="md">
-                <LuSettings />
-              </Icon>
+              <Settings className="h-5 w-5" />
             </Button>
           </div>
         </section>

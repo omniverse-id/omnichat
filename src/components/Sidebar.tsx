@@ -4,30 +4,26 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { Trans, useTranslation } from "react-i18next"
 import {
-  LuSettings,
-  LuDownload,
-  LuEllipsisVertical,
-  LuPanelLeftClose,
-  LuPanelLeftOpen,
-  LuPencil,
-  LuSearch,
-  LuSquarePen,
-  LuTrash,
-  LuX,
-} from "react-icons/lu"
+  Settings,
+  Download,
+  MoreVertical,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Pencil,
+  Search,
+  SquarePen,
+  Trash2,
+  X,
+} from "lucide-react"
 import { useNavigate } from "react-router"
 import IndexedDB from "../database/indexedDB"
 import useFilter from "../hooks/useFilter"
 import { useChatContext } from "../store/chat"
 import { useModals } from "../store/modal"
-import { useAppContext } from "../store/app" // Import useAppContext
+import { useAppContext } from "../store/app"
 import type { Conversation } from "../types"
-import { classNames } from "../utils"
 import { downloadAsFile } from "../utils/downloadAsFile"
 import { Button } from "./Button"
-import { Icon } from "./Icon"
-import { Input } from "./Input"
-import { Label } from "./Label"
 
 export default function Sidebar() {
   const navigate = useNavigate()
@@ -85,10 +81,10 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile drawer toggle - only used on mobile */}
-      <Input
+      <input
         id="toggle-drawer"
         type="checkbox"
-        className="drawer-toggle xl:hidden"
+        className="hidden xl:hidden"
         ref={toggleDrawerRef}
         aria-label="Toggle sidebar"
         onChange={(e) => setIsMobileDrawerOpen(e.target.checked)}
@@ -96,33 +92,30 @@ export default function Sidebar() {
 
       {/* Mobile drawer overlay and sidebar */}
       <div className="drawer-side xl:hidden z-50" role="complementary" aria-label="Sidebar" tabIndex={0}>
-        <Label htmlFor="toggle-drawer" className="drawer-overlay" aria-label="Close sidebar" />
-        <div className="flex flex-col bg-base-100 h-full min-h-0 max-w-full w-92 pb-4 px-4 shadow-xl/50">
+        <label htmlFor="toggle-drawer" className="drawer-overlay" aria-label="Close sidebar" />
+        <div className="flex flex-col bg-sidebar text-sidebar-foreground h-full min-h-0 max-w-full w-96 pb-4 px-4 shadow-xl">
           {/* Mobile Close Button */}
           <div className="flex flex-row items-center justify-between pt-2">
-            <Label
-              variant="btn-ghost"
-              size="icon-xl"
+            <label
               htmlFor="toggle-drawer"
-              role="button"
+              className="cursor-pointer"
               title={t("sidebar.buttons.closeSideBar")}
-              aria-label={t("sidebar.buttons.closeSideBar")}
-              tabIndex={0}
             >
-              <Icon size="md">
-                <LuPanelLeftClose />
-              </Icon>
-            </Label>
+              <Button
+                variant="ghost"
+                size="icon-xl"
+              >
+                <PanelLeftClose className="h-5 w-5" />
+              </Button>
+            </label>
 
-            <Label
-              variant="fake-btn"
-              className="font-bold tracking-wider leading-8 uppercase"
+            <button
+              className="font-bold tracking-wider leading-8 uppercase hover:bg-sidebar-accent rounded-md px-3 py-2 transition-colors"
               aria-label={import.meta.env.VITE_APP_NAME}
-              role="button"
               onClick={() => navigate("/")}
             >
               {import.meta.env.VITE_APP_NAME}
-            </Label>
+            </button>
 
             <Button
               variant="ghost"
@@ -131,19 +124,15 @@ export default function Sidebar() {
               title={t("header.buttons.settings")}
               aria-label={t("header.ariaLabels.settings")}
             >
-              <Icon size="md">
-                <LuSettings />
-              </Icon>
+              <Settings className="h-5 w-5" />
             </Button>
           </div>
 
           <div className="flex mt-2">
-            <Label variant="input-bordered" className="h-8 my-1.5 px-1.5 rounded-[8px]">
-              <Icon size="md">
-                <LuSearch />
-              </Icon>
-              <Input
-                className="input-sm grow"
+            <div className="flex items-center gap-2 h-8 my-1.5 px-2 rounded-md border border-sidebar-border bg-sidebar">
+              <Search className="h-4 w-4" />
+              <input
+                className="grow bg-transparent outline-none text-sm"
                 name="Search"
                 placeholder={t("sidebar.searchPlaceHolder")}
                 value={searchTerm}
@@ -160,17 +149,16 @@ export default function Sidebar() {
               {isFiltered && (
                 <Button
                   variant="ghost"
-                  size="icon-md"
+                  size="icon-sm"
                   onClick={resetFilter}
                   title={t("header.buttons.clear")}
                   aria-label={t("header.ariaLabels.clear")}
+                  className="p-0"
                 >
-                  <Icon size="md">
-                    <LuX />
-                  </Icon>
+                  <X className="h-4 w-4" />
                 </Button>
               )}
-            </Label>
+            </div>
           </div>
 
           <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
@@ -198,13 +186,13 @@ export default function Sidebar() {
 
       {/* Desktop sidebar - separate from drawer, no overlay */}
       <div
-        className={`hidden xl:flex flex-col bg-base-100 h-screen border-base-content/10 dark:border-base-content/10 shadow-sm transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`hidden xl:flex flex-col bg-sidebar text-sidebar-foreground h-screen border-r border-sidebar-border shadow-sm transition-all duration-300 ease-in-out overflow-hidden ${
           isSidebarOpen ? "w-96" : "w-0"
         }`}
         role="complementary"
         aria-label="Sidebar"
       >
-        <div className="flex flex-col bg-base-100 h-full min-h-0 pb-4 px-2">
+        <div className="flex flex-col bg-sidebar h-full min-h-0 pb-4 px-2">
           <div className="flex flex-row items-center justify-between py-2">
             {/* Desktop Toggle Button */}
             <Button
@@ -214,18 +202,16 @@ export default function Sidebar() {
               title={isSidebarOpen ? t("sidebar.buttons.closeSideBar") : t("sidebar.buttons.openSideBar")}
               aria-label={isSidebarOpen ? t("sidebar.buttons.closeSideBar") : t("sidebar.buttons.openSideBar")}
             >
-              <Icon size="md">{isSidebarOpen ? <LuPanelLeftClose /> : <LuPanelLeftOpen />}</Icon>
+              {isSidebarOpen ? <PanelLeftClose className="h-5 w-5" /> : <PanelLeftOpen className="h-5 w-5" />}
             </Button>
 
-            <Label
-              variant="fake-btn"
-              className="font-bold tracking-wider leading-8 uppercase whitespace-nowrap"
+            <button
+              className="font-bold tracking-wider leading-8 uppercase whitespace-nowrap hover:bg-sidebar-accent rounded-md px-3 py-2 transition-colors"
               aria-label={import.meta.env.VITE_APP_NAME}
-              role="button"
               onClick={() => navigate("/")}
             >
               {import.meta.env.VITE_APP_NAME}
-            </Label>
+            </button>
 
             <Button
               variant="ghost"
@@ -234,19 +220,15 @@ export default function Sidebar() {
               title={t("header.buttons.newConv")}
               aria-label={t("header.ariaLabels.newConv")}
             >
-              <Icon size="md">
-                <LuSquarePen />
-              </Icon>
+              <SquarePen className="h-5 w-5" />
             </Button>
           </div>
 
           <div className="flex px-2">
-            <Label variant="input-bordered" className="h-8 my-1.5 px-1.5 rounded-[8px]">
-              <Icon size="md">
-                <LuSearch />
-              </Icon>
-              <Input
-                className="input-sm grow"
+            <div className="flex items-center gap-2 h-8 my-1.5 px-2 rounded-md border border-sidebar-border bg-sidebar-accent">
+              <Search className="h-4 w-4" />
+              <input
+                className="grow bg-transparent outline-none text-sm"
                 name="Search"
                 placeholder={t("sidebar.searchPlaceHolder")}
                 value={searchTerm}
@@ -263,17 +245,16 @@ export default function Sidebar() {
               {isFiltered && (
                 <Button
                   variant="ghost"
-                  size="icon-md"
+                  size="icon-sm"
                   onClick={resetFilter}
                   title={t("header.buttons.clear")}
                   aria-label={t("header.ariaLabels.clear")}
+                  className="p-0"
                 >
-                  <Icon size="md">
-                    <LuX />
-                  </Icon>
+                  <X className="h-4 w-4" />
                 </Button>
               )}
-            </Label>
+            </div>
           </div>
 
           <div
@@ -324,10 +305,8 @@ const ConversationGroup = memo(
 
     return (
       <div role="group" className={className}>
-        <Label
-          className="px-2 opacity-75 pb-1"
-          variant="group-title"
-          size="xs"
+        <div
+          className="px-2 opacity-75 pb-1 text-xs font-bold text-sidebar-foreground"
           role="note"
           aria-description={t(`sidebar.groups.${group.title}`, {
             defaultValue: group.title,
@@ -335,7 +314,7 @@ const ConversationGroup = memo(
           tabIndex={0}
         >
           <Trans i18nKey={`sidebar.groups.${group.title}`} defaults={group.title} />
-        </Label>
+        </div>
 
         <ul>
           {group.conversations.map((conv) => (
@@ -400,10 +379,9 @@ const ConversationItem = memo(({ conv, onSelect }: { conv: Conversation; onSelec
       role="menuitem"
       tabIndex={0}
       aria-label={conv.name}
-      className={classNames({
-        "group flex flex-row btn btn-ghost h-9 justify-start items-center font-normal px-2 border-none rounded-[8px]": true,
-        "btn-soft": isCurrent,
-      })}
+      className={`group flex flex-row h-9 justify-start items-center font-normal px-2 rounded-md transition-colors ${
+        isCurrent ? "bg-sidebar-primary text-sidebar-primary-foreground" : "hover:bg-sidebar-accent"
+      }`}
     >
       <button
         type="button"
@@ -417,61 +395,53 @@ const ConversationItem = memo(({ conv, onSelect }: { conv: Conversation; onSelec
         {conv.name}
       </button>
 
-      <div tabIndex={0} className="dropdown dropdown-end">
+      <div className="dropdown dropdown-end">
         <Button
-          className="h-auto w-auto opacity-100 xl:opacity-20 group-hover:opacity-100 border-none"
+          className="h-auto w-auto opacity-0 group-hover:opacity-100 transition-opacity"
           variant="ghost"
           size="icon"
           onClick={() => {}}
           title={t("sidebar.buttons.more")}
           aria-label={t("sidebar.ariaLabels.more")}
         >
-          <Icon size="md">
-            <LuEllipsisVertical />
-          </Icon>
+          <MoreVertical className="h-4 w-4" />
         </Button>
         <ul
           aria-label={t("sidebar.ariaLabels.dropdown")}
           role="menu"
           tabIndex={-1}
-          className="dropdown-content menu bg-base-100 rounded-box z-[1] p-2 shadow"
+          className="dropdown-content menu bg-popover text-popover-foreground rounded-md z-[1] p-1 shadow"
         >
-          <li role="menuitem" tabIndex={0} onClick={handleRename}>
+          <li role="menuitem" onClick={handleRename}>
             <Button
-              variant="menu-item"
+              variant="ghost"
               size="small"
+              className="justify-start text-sm"
               title={t("sidebar.buttons.rename")}
-              aria-label={t("sidebar.ariaLabels.rename")}
             >
-              <Icon size="sm">
-                <LuPencil />
-              </Icon>
+              <Pencil className="h-4 w-4" />
               <Trans i18nKey="sidebar.buttons.rename" />
             </Button>
           </li>
-          <li role="menuitem" tabIndex={0} onClick={handleDownload}>
+          <li role="menuitem" onClick={handleDownload}>
             <Button
-              variant="menu-item"
+              variant="ghost"
               size="small"
+              className="justify-start text-sm"
               title={t("sidebar.buttons.download")}
-              aria-label={t("sidebar.ariaLabels.download")}
             >
-              <Icon size="sm">
-                <LuDownload />
-              </Icon>
+              <Download className="h-4 w-4" />
               <Trans i18nKey="sidebar.buttons.download" />
             </Button>
           </li>
-          <li role="menuitem" tabIndex={0} className="text-error" onClick={handleDelete}>
+          <li role="menuitem" onClick={handleDelete}>
             <Button
-              variant="menu-item"
+              variant="ghost"
               size="small"
+              className="justify-start text-sm text-destructive hover:text-destructive"
               title={t("sidebar.buttons.delete")}
-              aria-label={t("sidebar.ariaLabels.delete")}
             >
-              <Icon size="sm">
-                <LuTrash />
-              </Icon>
+              <Trash2 className="h-4 w-4" />
               <Trans i18nKey="sidebar.buttons.delete" />
             </Button>
           </li>
