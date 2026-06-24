@@ -8,6 +8,9 @@ import path from 'path';
 const vendors = ['highlight', 'katex', 'pdfjs', 'radix-ui', 'react-icons'];
 
 export default defineConfig({
+  define: {
+    __DEFINES__: JSON.stringify({}),
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
