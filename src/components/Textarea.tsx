@@ -11,17 +11,19 @@ import {
   useState,
 } from 'react';
 import { cn, throttle } from '../utils';
+import { Textarea as ShadcnTextarea } from './ui/textarea';
 
-const variants = cva('textarea min-h-auto resize-none', {
+const variants = cva('min-h-auto resize-none', {
   variants: {
     variant: {
-      bordered: 'focus:outline-1 focus:outline-offset-0 inset-shadow-xs',
+      bordered:
+        'border border-input focus-visible:ring-1 focus-visible:ring-ring',
       code: 'font-mono',
       transparent:
-        'bg-transparent border-none outline-0 ring-0 focus:outline-0 focus:ring-0',
+        'bg-transparent border-none outline-0 ring-0 focus-visible:outline-0 focus-visible:ring-0',
     },
     size: {
-      default: 'h-24',
+      default: 'min-h-24',
       full: 'w-full',
     },
   },
@@ -36,10 +38,9 @@ export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ className, variant, size, ...props }, ref) => (
-    <textarea
+    <ShadcnTextarea
       className={cn(variants({ variant, size, className }))}
       ref={ref}
-      dir="auto"
       {...props}
     />
   )

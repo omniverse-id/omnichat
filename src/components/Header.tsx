@@ -1,20 +1,20 @@
-"use client"
+'use client';
 
-import { useMemo } from "react"
-import { useTranslation } from "react-i18next"
-import { LuSettings, LuPanelLeftOpen, LuSquarePen } from "react-icons/lu"
-import { useNavigate } from "react-router"
-import { useAppContext } from "../store/app"
-import { useChatContext } from "../store/chat"
-import { useInferenceContext } from "../store/inference"
-import { Button } from "./Button"
-import { Dropdown } from "./Dropdown"
-import { Icon } from "./Icon"
-import { Label } from "./Label"
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LuSettings, LuPanelLeftOpen, LuSquarePen } from 'react-icons/lu';
+import { useNavigate } from 'react-router';
+import { useAppContext } from '../store/app';
+import { useChatContext } from '../store/chat';
+import { useInferenceContext } from '../store/inference';
+import { Button } from './Button';
+import { Dropdown } from './Dropdown';
+import { Icon } from './Icon';
+import { Label } from './Label';
 
 export default function Header() {
-  const navigate = useNavigate()
-  const { t } = useTranslation()
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const {
     config,
     config: { model },
@@ -22,20 +22,25 @@ export default function Header() {
     showSettings,
     isSidebarOpen,
     toggleSidebar,
-  } = useAppContext()
-  const { models } = useInferenceContext()
-  const { viewingChat } = useChatContext()
+  } = useAppContext();
+  const { models } = useInferenceContext();
+  const { viewingChat } = useChatContext();
 
-  const currConv = useMemo(() => viewingChat?.conv ?? null, [viewingChat])
+  const currConv = useMemo(() => viewingChat?.conv ?? null, [viewingChat]);
   const title = useMemo(
-    () => (showSettings ? t("header.title.settings") : currConv ? currConv.name : t("header.title.noChat")),
-    [t, currConv, showSettings],
-  )
+    () =>
+      showSettings
+        ? t('header.title.settings')
+        : currConv
+          ? currConv.name
+          : t('header.title.noChat'),
+    [t, currConv, showSettings]
+  );
 
   const selectedModel = useMemo(() => {
-    const selectedModel = models.find((m) => m.id === model)
-    return selectedModel ? selectedModel.name : <s>{model}</s>
-  }, [models, model])
+    const selectedModel = models.find((m) => m.id === model);
+    return selectedModel ? selectedModel.name : <s>{model}</s>;
+  }, [models, model]);
 
   return (
     <header className="flex flex-col gap-2 justify-center max-md:pb-2 md:py-2 sticky top-0 pt-2 z-10">
@@ -54,9 +59,9 @@ export default function Header() {
           aria-label={title}
           role="button"
           onClick={() => {
-            if (showSettings) return
-            if (currConv) navigate(`/chat/${currConv.id}`)
-            else navigate("/")
+            if (showSettings) return;
+            if (currConv) navigate(`/chat/${currConv.id}`);
+            else navigate('/');
           }}
         >
           {title}
@@ -66,9 +71,9 @@ export default function Header() {
         <Button
           variant="ghost"
           size="icon-xl"
-          onClick={() => navigate("/")}
-          title={t("header.buttons.newConv")}
-          aria-label={t("header.ariaLabels.newConv")}
+          onClick={() => navigate('/')}
+          title={t('header.buttons.newConv')}
+          aria-label={t('header.ariaLabels.newConv')}
         >
           <Icon size="md">
             <LuSquarePen />
@@ -78,7 +83,10 @@ export default function Header() {
 
       {showSettings && (
         <section className="flex items-center max-xl:hidden">
-          <Label className="font-medium truncate text-center px-4" aria-label={title}>
+          <Label
+            className="font-medium truncate text-center px-4"
+            aria-label={title}
+          >
             {title}
           </Label>
         </section>
@@ -91,11 +99,11 @@ export default function Header() {
             size="icon-xl"
             className="hidden xl:flex transition-opacity duration-300"
             onClick={toggleSidebar}
-            title={t("header.buttons.toggleSidebar")}
-            aria-label={t("header.ariaLabels.toggleSidebar")}
+            title={t('header.buttons.toggleSidebar')}
+            aria-label={t('header.ariaLabels.toggleSidebar')}
             style={{
               opacity: isSidebarOpen ? 0 : 1,
-              pointerEvents: isSidebarOpen ? "none" : "auto",
+              pointerEvents: isSidebarOpen ? 'none' : 'auto',
             }}
           >
             <Icon size="md">
@@ -115,9 +123,15 @@ export default function Header() {
             hideChevron={models.length < 2}
             align="start"
             currentValue={
-              <span className="max-w-64 sm:max-w-80 truncate text-nowrap font-semibold">{selectedModel}</span>
+              <span className="max-w-64 sm:max-w-80 truncate text-nowrap font-semibold">
+                {selectedModel}
+              </span>
             }
-            renderOption={(option) => <span className="max-w-64 sm:max-w-80 truncate text-nowrap">{option.label}</span>}
+            renderOption={(option) => (
+              <span className="max-w-64 sm:max-w-80 truncate text-nowrap">
+                {option.label}
+              </span>
+            )}
             isSelected={(option) => model === option.value}
             onSelect={(option) =>
               saveConfig({
@@ -133,9 +147,9 @@ export default function Header() {
               variant="ghost"
               size="icon-xl"
               className="max-xl:hidden"
-              title={t("header.buttons.settings")}
-              aria-label={t("header.ariaLabels.settings")}
-              onClick={() => navigate("/settings")}
+              title={t('header.buttons.settings')}
+              aria-label={t('header.ariaLabels.settings')}
+              onClick={() => navigate('/settings')}
             >
               {/* settings button */}
               <Icon size="md">
@@ -146,5 +160,5 @@ export default function Header() {
         </section>
       )}
     </header>
-  )
+  );
 }

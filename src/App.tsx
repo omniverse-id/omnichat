@@ -1,20 +1,27 @@
-"use client"
+'use client';
 
-import type { FC } from "react"
-import { Toaster } from "react-hot-toast"
-import { BrowserRouter, Navigate, Outlet, Route, Routes, useParams } from "react-router"
-import { Footer } from "./components/Footer"
-import Header from "./components/Header"
-import Sidebar from "./components/Sidebar"
-import { useProviderSetup } from "./hooks/useProviderSetup"
-import { usePWAUpdateToast } from "./hooks/usePWAUpdatePrompt"
-import ChatPage from "./pages/Chat"
-import SettingsPage from "./pages/Settings"
-import WelcomePage from "./pages/Welcome"
-import { AppContextProvider } from "./store/app"
-import { ChatContextProvider } from "./store/chat"
-import { InferenceContextProvider } from "./store/inference"
-import { ModalProvider } from "./store/modal"
+import type { FC } from 'react';
+import { Toaster } from 'react-hot-toast';
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useParams,
+} from 'react-router';
+import { Footer } from './components/Footer';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import { useProviderSetup } from './hooks/useProviderSetup';
+import { usePWAUpdateToast } from './hooks/usePWAUpdatePrompt';
+import ChatPage from './pages/Chat';
+import SettingsPage from './pages/Settings';
+import WelcomePage from './pages/Welcome';
+import { AppContextProvider } from './store/app';
+import { ChatContextProvider } from './store/chat';
+import { InferenceContextProvider } from './store/inference';
+import { ModalProvider } from './store/modal';
 
 const App: FC = () => {
   return (
@@ -37,20 +44,20 @@ const App: FC = () => {
         </div>
       </BrowserRouter>
     </ModalProvider>
-  )
-}
+  );
+};
 
 const AppLayout: FC = () => {
-  usePWAUpdateToast()
-  useProviderSetup()
+  usePWAUpdateToast();
+  useProviderSetup();
 
   return (
     <>
       <Sidebar />
-      <div className="flex flex-col w-full h-screen px-1 md:px-2 bg-base-100">
+      <div className="flex flex-col w-full h-screen px-1 md:px-2 bg-background">
         <Header />
         <main
-          className="grow flex flex-col overflow-auto bg-base-100 rounded-xl border-1 border-base-content/20 dark:border-base-content/10 border-input"
+          className="grow flex flex-col overflow-auto bg-background rounded-lg border border-border"
           id="main-scroll"
         >
           <Outlet />
@@ -59,13 +66,13 @@ const AppLayout: FC = () => {
       </div>
       <Toaster />
     </>
-  )
-}
+  );
+};
 
 const Chat: FC = () => {
-  const { convId } = useParams()
-  if (!convId) return <Navigate to="/" replace />
-  return <ChatPage currConvId={convId} />
-}
+  const { convId } = useParams();
+  if (!convId) return <Navigate to="/" replace />;
+  return <ChatPage currConvId={convId} />;
+};
 
-export default App
+export default App;

@@ -304,7 +304,7 @@ async function convertPDFToImage(
     if (!ctx) {
       throw new Error(t('fileUpload.errors.failedToGetCanvasContext'));
     }
-    const task = page.render({ canvasContext: ctx, viewport: viewport });
+    const task = page.render({ canvas, viewport: viewport });
     pages.push(
       task.promise.then(() => {
         return canvas.toDataURL();

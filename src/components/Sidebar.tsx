@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import toast from "react-hot-toast"
-import { Trans, useTranslation } from "react-i18next"
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   LuSettings,
   LuDownload,
@@ -14,32 +14,32 @@ import {
   LuSquarePen,
   LuTrash,
   LuX,
-} from "react-icons/lu"
-import { useNavigate } from "react-router"
-import IndexedDB from "../database/indexedDB"
-import useFilter from "../hooks/useFilter"
-import { useChatContext } from "../store/chat"
-import { useModals } from "../store/modal"
-import { useAppContext } from "../store/app" // Import useAppContext
-import type { Conversation } from "../types"
-import { classNames } from "../utils"
-import { downloadAsFile } from "../utils/downloadAsFile"
-import { Button } from "./Button"
-import { Icon } from "./Icon"
-import { Input } from "./Input"
-import { Label } from "./Label"
+} from 'react-icons/lu';
+import { useNavigate } from 'react-router';
+import IndexedDB from '../database/indexedDB';
+import useFilter from '../hooks/useFilter';
+import { useChatContext } from '../store/chat';
+import { useModals } from '../store/modal';
+import { useAppContext } from '../store/app'; // Import useAppContext
+import type { Conversation } from '../types';
+import { classNames } from '../utils';
+import { downloadAsFile } from '../utils/downloadAsFile';
+import { Button } from './Button';
+import { Icon } from './Icon';
+import { Input } from './Input';
+import { Label } from './Label';
 
 export default function Sidebar() {
-  const navigate = useNavigate()
-  const { t, i18n } = useTranslation()
-  const toggleDrawerRef = useRef<HTMLInputElement>(null)
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const toggleDrawerRef = useRef<HTMLInputElement>(null);
 
-  const { isSidebarOpen, toggleSidebar } = useAppContext()
+  const { isSidebarOpen, toggleSidebar } = useAppContext();
 
-  const { t: _t } = useTranslation()
+  const { t: _t } = useTranslation();
 
-  const [conversations, setConversations] = useState<Conversation[]>([])
-  const [, setIsMobileDrawerOpen] = useState(false)
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [, setIsMobileDrawerOpen] = useState(false);
 
   const {
     filteredData: filteredConversations,
@@ -47,40 +47,40 @@ export default function Sidebar() {
     resetFilter,
     searchTerm,
     isFiltered,
-  } = useFilter(conversations)
+  } = useFilter(conversations);
 
   useEffect(() => {
     const handleConversationChange = async () => {
-      setConversations(await IndexedDB.getAllConversations())
-    }
-    IndexedDB.onConversationChanged(handleConversationChange)
-    handleConversationChange()
+      setConversations(await IndexedDB.getAllConversations());
+    };
+    IndexedDB.onConversationChanged(handleConversationChange);
+    handleConversationChange();
     return () => {
-      IndexedDB.offConversationChanged(handleConversationChange)
-    }
-  }, [])
+      IndexedDB.offConversationChanged(handleConversationChange);
+    };
+  }, []);
 
   const groupedConv = useMemo(
     () => groupConversationsByDate(conversations, i18n.language),
-    [i18n.language, conversations],
-  )
+    [i18n.language, conversations]
+  );
 
   const handleSelect = useCallback(() => {
-    const toggle = toggleDrawerRef.current
+    const toggle = toggleDrawerRef.current;
     if (toggle != null) {
       // Only toggle checkbox on mobile view
-      const isMobile = window.innerWidth < 1280 // xl breakpoint
+      const isMobile = window.innerWidth < 1280; // xl breakpoint
       if (isMobile) {
-        toggle.checked = false
-        setIsMobileDrawerOpen(false)
-        toggle.dispatchEvent(new Event("change", { bubbles: true }))
+        toggle.checked = false;
+        setIsMobileDrawerOpen(false);
+        toggle.dispatchEvent(new Event('change', { bubbles: true }));
       }
     }
-  }, [])
+  }, []);
 
   const handleToggleSidebar = () => {
-    toggleSidebar()
-  }
+    toggleSidebar();
+  };
 
   return (
     <>
@@ -95,9 +95,18 @@ export default function Sidebar() {
       />
 
       {/* Mobile drawer overlay and sidebar */}
-      <div className="drawer-side xl:hidden z-50" role="complementary" aria-label="Sidebar" tabIndex={0}>
-        <Label htmlFor="toggle-drawer" className="drawer-overlay" aria-label="Close sidebar" />
-        <div className="flex flex-col bg-base-100 h-full min-h-0 max-w-full w-92 pb-4 px-4 shadow-xl/50">
+      <div
+        className="fixed inset-0 xl:hidden z-40"
+        role="complementary"
+        aria-label="Sidebar"
+        tabIndex={0}
+      >
+        <Label
+          htmlFor="toggle-drawer"
+          className="fixed inset-0 bg-black/50"
+          aria-label="Close sidebar"
+        />
+        <div className="fixed top-0 left-0 flex flex-col bg-card h-full w-72 pb-4 px-4 shadow-lg z-50">
           {/* Mobile Close Button */}
           <div className="flex flex-row items-center justify-between pt-2">
             <Label
@@ -105,8 +114,8 @@ export default function Sidebar() {
               size="icon-xl"
               htmlFor="toggle-drawer"
               role="button"
-              title={t("sidebar.buttons.closeSideBar")}
-              aria-label={t("sidebar.buttons.closeSideBar")}
+              title={t('sidebar.buttons.closeSideBar')}
+              aria-label={t('sidebar.buttons.closeSideBar')}
               tabIndex={0}
             >
               <Icon size="md">
@@ -119,7 +128,7 @@ export default function Sidebar() {
               className="font-bold tracking-wider leading-8 uppercase"
               aria-label={import.meta.env.VITE_APP_NAME}
               role="button"
-              onClick={() => navigate("/")}
+              onClick={() => navigate('/')}
             >
               {import.meta.env.VITE_APP_NAME}
             </Label>
@@ -127,9 +136,9 @@ export default function Sidebar() {
             <Button
               variant="ghost"
               size="icon-xl"
-              onClick={() => navigate("/settings")}
-              title={t("header.buttons.settings")}
-              aria-label={t("header.ariaLabels.settings")}
+              onClick={() => navigate('/settings')}
+              title={t('header.buttons.settings')}
+              aria-label={t('header.ariaLabels.settings')}
             >
               <Icon size="md">
                 <LuSettings />
@@ -137,22 +146,25 @@ export default function Sidebar() {
             </Button>
           </div>
 
-          <div className="flex mt-2">
-            <Label variant="input-bordered" className="h-8 my-1.5 px-1.5 rounded-[8px]">
+          <div className="flex mt-2 px-2">
+            <Label
+              variant="input-bordered"
+              className="h-8 my-1.5 px-1.5 rounded-lg"
+            >
               <Icon size="md">
                 <LuSearch />
               </Icon>
               <Input
-                className="input-sm grow"
+                className="grow text-sm"
                 name="Search"
-                placeholder={t("sidebar.searchPlaceHolder")}
+                placeholder={t('sidebar.searchPlaceHolder')}
                 value={searchTerm}
                 onChange={(e) => setFilter(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.nativeEvent.isComposing || e.keyCode === 229) return
-                  if (e.key === "Escape" && !e.shiftKey) {
-                    e.preventDefault()
-                    resetFilter()
+                  if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+                  if (e.key === 'Escape' && !e.shiftKey) {
+                    e.preventDefault();
+                    resetFilter();
                   }
                 }}
                 autoFocus
@@ -160,10 +172,10 @@ export default function Sidebar() {
               {isFiltered && (
                 <Button
                   variant="ghost"
-                  size="icon-md"
+                  size="icon-sm"
                   onClick={resetFilter}
-                  title={t("header.buttons.clear")}
-                  aria-label={t("header.ariaLabels.clear")}
+                  title={t('header.buttons.clear')}
+                  aria-label={t('header.ariaLabels.clear')}
                 >
                   <Icon size="md">
                     <LuX />
@@ -177,7 +189,7 @@ export default function Sidebar() {
             {!isFiltered &&
               groupedConv.map((group, idx) => (
                 <ConversationGroup
-                  className={idx > 0 ? "mt-6" : "mt-3"}
+                  className={idx > 0 ? 'mt-6' : 'mt-3'}
                   key={group.title}
                   group={group}
                   onItemSelect={handleSelect}
@@ -186,7 +198,11 @@ export default function Sidebar() {
 
             {isFiltered &&
               filteredConversations.map((conv) => (
-                <ConversationItem key={conv.id} conv={conv} onSelect={handleSelect} />
+                <ConversationItem
+                  key={conv.id}
+                  conv={conv}
+                  onSelect={handleSelect}
+                />
               ))}
           </div>
 
@@ -198,23 +214,33 @@ export default function Sidebar() {
 
       {/* Desktop sidebar - separate from drawer, no overlay */}
       <div
-        className={`hidden xl:flex flex-col bg-base-100 h-screen border-base-content/10 dark:border-base-content/10 shadow-sm transition-all duration-300 ease-in-out overflow-hidden ${
-          isSidebarOpen ? "w-96" : "w-0"
+        className={`hidden xl:flex flex-col bg-card h-screen border-r border-border shadow-sm transition-all duration-300 ease-in-out overflow-hidden ${
+          isSidebarOpen ? 'w-96' : 'w-0'
         }`}
         role="complementary"
         aria-label="Sidebar"
       >
-        <div className="flex flex-col bg-base-100 h-full min-h-0 pb-4 px-2">
+        <div className="flex flex-col bg-card h-full min-h-0 pb-4 px-2">
           <div className="flex flex-row items-center justify-between py-2">
             {/* Desktop Toggle Button */}
             <Button
               variant="ghost"
               size="icon-xl"
               onClick={handleToggleSidebar}
-              title={isSidebarOpen ? t("sidebar.buttons.closeSideBar") : t("sidebar.buttons.openSideBar")}
-              aria-label={isSidebarOpen ? t("sidebar.buttons.closeSideBar") : t("sidebar.buttons.openSideBar")}
+              title={
+                isSidebarOpen
+                  ? t('sidebar.buttons.closeSideBar')
+                  : t('sidebar.buttons.openSideBar')
+              }
+              aria-label={
+                isSidebarOpen
+                  ? t('sidebar.buttons.closeSideBar')
+                  : t('sidebar.buttons.openSideBar')
+              }
             >
-              <Icon size="md">{isSidebarOpen ? <LuPanelLeftClose /> : <LuPanelLeftOpen />}</Icon>
+              <Icon size="md">
+                {isSidebarOpen ? <LuPanelLeftClose /> : <LuPanelLeftOpen />}
+              </Icon>
             </Button>
 
             <Label
@@ -222,7 +248,7 @@ export default function Sidebar() {
               className="font-bold tracking-wider leading-8 uppercase whitespace-nowrap"
               aria-label={import.meta.env.VITE_APP_NAME}
               role="button"
-              onClick={() => navigate("/")}
+              onClick={() => navigate('/')}
             >
               {import.meta.env.VITE_APP_NAME}
             </Label>
@@ -230,9 +256,9 @@ export default function Sidebar() {
             <Button
               variant="ghost"
               size="icon-xl"
-              onClick={() => navigate("/")}
-              title={t("header.buttons.newConv")}
-              aria-label={t("header.ariaLabels.newConv")}
+              onClick={() => navigate('/')}
+              title={t('header.buttons.newConv')}
+              aria-label={t('header.ariaLabels.newConv')}
             >
               <Icon size="md">
                 <LuSquarePen />
@@ -241,21 +267,24 @@ export default function Sidebar() {
           </div>
 
           <div className="flex px-2">
-            <Label variant="input-bordered" className="h-8 my-1.5 px-1.5 rounded-[8px]">
+            <Label
+              variant="input-bordered"
+              className="h-8 my-1.5 px-1.5 rounded-[8px]"
+            >
               <Icon size="md">
                 <LuSearch />
               </Icon>
               <Input
                 className="input-sm grow"
                 name="Search"
-                placeholder={t("sidebar.searchPlaceHolder")}
+                placeholder={t('sidebar.searchPlaceHolder')}
                 value={searchTerm}
                 onChange={(e) => setFilter(e.target.value)}
                 onKeyDown={(e) => {
-                  if (e.nativeEvent.isComposing || e.keyCode === 229) return
-                  if (e.key === "Escape" && !e.shiftKey) {
-                    e.preventDefault()
-                    resetFilter()
+                  if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+                  if (e.key === 'Escape' && !e.shiftKey) {
+                    e.preventDefault();
+                    resetFilter();
                   }
                 }}
                 autoFocus
@@ -265,8 +294,8 @@ export default function Sidebar() {
                   variant="ghost"
                   size="icon-md"
                   onClick={resetFilter}
-                  title={t("header.buttons.clear")}
-                  aria-label={t("header.ariaLabels.clear")}
+                  title={t('header.buttons.clear')}
+                  aria-label={t('header.ariaLabels.clear')}
                 >
                   <Icon size="md">
                     <LuX />
@@ -278,13 +307,13 @@ export default function Sidebar() {
 
           <div
             className={`flex-1 overflow-y-auto overflow-x-hidden min-h-0 transition-opacity duration-300 ${
-              isSidebarOpen ? "opacity-100" : "opacity-0"
+              isSidebarOpen ? 'opacity-100' : 'opacity-0'
             }`}
           >
             {!isFiltered &&
               groupedConv.map((group, idx) => (
                 <ConversationGroup
-                  className={idx > 0 ? "mt-6" : "mt-3"}
+                  className={idx > 0 ? 'mt-6' : 'mt-3'}
                   key={group.title}
                   group={group}
                   onItemSelect={handleSelect}
@@ -293,13 +322,17 @@ export default function Sidebar() {
 
             {isFiltered &&
               filteredConversations.map((conv) => (
-                <ConversationItem key={conv.id} conv={conv} onSelect={handleSelect} />
+                <ConversationItem
+                  key={conv.id}
+                  conv={conv}
+                  onSelect={handleSelect}
+                />
               ))}
           </div>
 
           <div
             className={`text-xs px-4 py-2 transition-opacity duration-300 whitespace-nowrap overflow-hidden ${
-              isSidebarOpen ? "opacity-75" : "opacity-0"
+              isSidebarOpen ? 'opacity-75' : 'opacity-0'
             }`}
           >
             <Trans i18nKey="sidebar.storageNote" />
@@ -307,7 +340,7 @@ export default function Sidebar() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 const ConversationGroup = memo(
@@ -316,16 +349,16 @@ const ConversationGroup = memo(
     group,
     onItemSelect,
   }: {
-    className?: string
-    group: GroupedConversations
-    onItemSelect: () => void
+    className?: string;
+    group: GroupedConversations;
+    onItemSelect: () => void;
   }) => {
-    const { t } = useTranslation()
+    const { t } = useTranslation();
 
     return (
       <div role="group" className={className}>
         <Label
-          className="px-2 opacity-75 pb-1"
+          className="px-2 opacity-60 pb-1 text-xs font-semibold text-foreground"
           variant="group-title"
           size="xs"
           role="note"
@@ -334,244 +367,272 @@ const ConversationGroup = memo(
           })}
           tabIndex={0}
         >
-          <Trans i18nKey={`sidebar.groups.${group.title}`} defaults={group.title} />
+          <Trans
+            i18nKey={`sidebar.groups.${group.title}`}
+            defaults={group.title}
+          />
         </Label>
 
         <ul>
           {group.conversations.map((conv) => (
-            <ConversationItem key={conv.id} conv={conv} onSelect={onItemSelect} />
+            <ConversationItem
+              key={conv.id}
+              conv={conv}
+              onSelect={onItemSelect}
+            />
           ))}
         </ul>
       </div>
-    )
-  },
-)
-
-const ConversationItem = memo(({ conv, onSelect }: { conv: Conversation; onSelect: () => void }) => {
-  const navigate = useNavigate()
-  const { t } = useTranslation()
-  const { viewingChat, isGenerating } = useChatContext()
-  const { showConfirm, showPrompt } = useModals()
-
-  const isCurrent = useMemo(() => viewingChat?.conv?.id === conv.id, [conv.id, viewingChat?.conv?.id])
-
-  const isPending = useMemo(() => isGenerating(conv.id), [conv.id, isGenerating])
-
-  const handleSelect = () => {
-    onSelect()
-    navigate(`/chat/${conv.id}`)
+    );
   }
+);
 
-  const handleRename = async () => {
-    if (isPending) {
-      toast.error(t("sidebar.errors.renameOnGenerate"))
-      return
-    }
-    const newName = await showPrompt(t("sidebar.actions.newName"), conv.name)
-    if (newName && newName.trim().length > 0) {
-      IndexedDB.updateConversationName(conv.id, newName)
-    }
-  }
+const ConversationItem = memo(
+  ({ conv, onSelect }: { conv: Conversation; onSelect: () => void }) => {
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+    const { viewingChat, isGenerating } = useChatContext();
+    const { showConfirm, showPrompt } = useModals();
 
-  const handleDownload = async () => {
-    if (isPending) {
-      toast.error(t("sidebar.errors.downloadOnGenerate"))
-      return
-    }
-    return IndexedDB.exportDB(conv.id).then((data) =>
-      downloadAsFile([JSON.stringify(data, null, 2)], `conversation_${conv.id}.json`),
-    )
-  }
+    const isCurrent = useMemo(
+      () => viewingChat?.conv?.id === conv.id,
+      [conv.id, viewingChat?.conv?.id]
+    );
 
-  const handleDelete = async () => {
-    if (isPending) {
-      toast.error(t("sidebar.errors.deleteOnGenerate"))
-      return
-    }
-    if (await showConfirm(t("sidebar.actions.deleteConfirm"))) {
-      toast.success(t("sidebar.actions.deleteSuccess"))
-      IndexedDB.deleteConversation(conv.id)
-      navigate("/")
-    }
-  }
+    const isPending = useMemo(
+      () => isGenerating(conv.id),
+      [conv.id, isGenerating]
+    );
 
-  return (
-    <li
-      role="menuitem"
-      tabIndex={0}
-      aria-label={conv.name}
-      className={classNames({
-        "group flex flex-row btn btn-ghost h-9 justify-start items-center font-normal px-2 border-none rounded-[8px]": true,
-        "btn-soft": isCurrent,
-      })}
-    >
-      <button
-        type="button"
-        key={conv.id}
-        className="w-full overflow-hidden truncate text-start"
-        onClick={handleSelect}
-        dir="auto"
-        title={conv.name}
-        aria-label={t("sidebar.ariaLabels.select", { name: conv.name })}
+    const handleSelect = () => {
+      onSelect();
+      navigate(`/chat/${conv.id}`);
+    };
+
+    const handleRename = async () => {
+      if (isPending) {
+        toast.error(t('sidebar.errors.renameOnGenerate'));
+        return;
+      }
+      const newName = await showPrompt(t('sidebar.actions.newName'), conv.name);
+      if (newName && newName.trim().length > 0) {
+        IndexedDB.updateConversationName(conv.id, newName);
+      }
+    };
+
+    const handleDownload = async () => {
+      if (isPending) {
+        toast.error(t('sidebar.errors.downloadOnGenerate'));
+        return;
+      }
+      return IndexedDB.exportDB(conv.id).then((data) =>
+        downloadAsFile(
+          [JSON.stringify(data, null, 2)],
+          `conversation_${conv.id}.json`
+        )
+      );
+    };
+
+    const handleDelete = async () => {
+      if (isPending) {
+        toast.error(t('sidebar.errors.deleteOnGenerate'));
+        return;
+      }
+      if (await showConfirm(t('sidebar.actions.deleteConfirm'))) {
+        toast.success(t('sidebar.actions.deleteSuccess'));
+        IndexedDB.deleteConversation(conv.id);
+        navigate('/');
+      }
+    };
+
+    return (
+      <li
+        role="menuitem"
+        tabIndex={0}
+        aria-label={conv.name}
+        className={classNames({
+          'group flex flex-row h-9 justify-start items-center font-normal px-2 rounded-lg hover:bg-muted': true,
+          'bg-muted': isCurrent,
+        })}
       >
-        {conv.name}
-      </button>
+        <button
+          type="button"
+          key={conv.id}
+          className="w-full overflow-hidden truncate text-start"
+          onClick={handleSelect}
+          dir="auto"
+          title={conv.name}
+          aria-label={t('sidebar.ariaLabels.select', { name: conv.name })}
+        >
+          {conv.name}
+        </button>
 
-      <div tabIndex={0} className="dropdown dropdown-end">
-        <Button
-          className="h-auto w-auto opacity-100 xl:opacity-20 group-hover:opacity-100 border-none"
-          variant="ghost"
-          size="icon"
-          onClick={() => {}}
-          title={t("sidebar.buttons.more")}
-          aria-label={t("sidebar.ariaLabels.more")}
-        >
-          <Icon size="md">
-            <LuEllipsisVertical />
-          </Icon>
-        </Button>
-        <ul
-          aria-label={t("sidebar.ariaLabels.dropdown")}
-          role="menu"
-          tabIndex={-1}
-          className="dropdown-content menu bg-base-100 rounded-box z-[1] p-2 shadow"
-        >
-          <li role="menuitem" tabIndex={0} onClick={handleRename}>
-            <Button
-              variant="menu-item"
-              size="small"
-              title={t("sidebar.buttons.rename")}
-              aria-label={t("sidebar.ariaLabels.rename")}
+        <div tabIndex={0} className="relative group/dropdown">
+          <Button
+            className="h-auto w-auto opacity-100 xl:opacity-20 group-hover:opacity-100"
+            variant="ghost"
+            size="icon"
+            onClick={() => {}}
+            title={t('sidebar.buttons.more')}
+            aria-label={t('sidebar.ariaLabels.more')}
+          >
+            <Icon size="md">
+              <LuEllipsisVertical />
+            </Icon>
+          </Button>
+          <ul
+            aria-label={t('sidebar.ariaLabels.dropdown')}
+            role="menu"
+            tabIndex={-1}
+            className="absolute right-0 mt-1 bg-card border border-border rounded-lg p-2 shadow-lg hidden group-hover/dropdown:block z-50"
+          >
+            <li role="menuitem" tabIndex={0} onClick={handleRename}>
+              <Button
+                variant="menu-item"
+                size="small"
+                title={t('sidebar.buttons.rename')}
+                aria-label={t('sidebar.ariaLabels.rename')}
+              >
+                <Icon size="sm">
+                  <LuPencil />
+                </Icon>
+                <Trans i18nKey="sidebar.buttons.rename" />
+              </Button>
+            </li>
+            <li role="menuitem" tabIndex={0} onClick={handleDownload}>
+              <Button
+                variant="menu-item"
+                size="small"
+                title={t('sidebar.buttons.download')}
+                aria-label={t('sidebar.ariaLabels.download')}
+              >
+                <Icon size="sm">
+                  <LuDownload />
+                </Icon>
+                <Trans i18nKey="sidebar.buttons.download" />
+              </Button>
+            </li>
+            <li
+              role="menuitem"
+              tabIndex={0}
+              className="text-error"
+              onClick={handleDelete}
             >
-              <Icon size="sm">
-                <LuPencil />
-              </Icon>
-              <Trans i18nKey="sidebar.buttons.rename" />
-            </Button>
-          </li>
-          <li role="menuitem" tabIndex={0} onClick={handleDownload}>
-            <Button
-              variant="menu-item"
-              size="small"
-              title={t("sidebar.buttons.download")}
-              aria-label={t("sidebar.ariaLabels.download")}
-            >
-              <Icon size="sm">
-                <LuDownload />
-              </Icon>
-              <Trans i18nKey="sidebar.buttons.download" />
-            </Button>
-          </li>
-          <li role="menuitem" tabIndex={0} className="text-error" onClick={handleDelete}>
-            <Button
-              variant="menu-item"
-              size="small"
-              title={t("sidebar.buttons.delete")}
-              aria-label={t("sidebar.ariaLabels.delete")}
-            >
-              <Icon size="sm">
-                <LuTrash />
-              </Icon>
-              <Trans i18nKey="sidebar.buttons.delete" />
-            </Button>
-          </li>
-        </ul>
-      </div>
-    </li>
-  )
-})
+              <Button
+                variant="menu-item"
+                size="small"
+                title={t('sidebar.buttons.delete')}
+                aria-label={t('sidebar.ariaLabels.delete')}
+              >
+                <Icon size="sm">
+                  <LuTrash />
+                </Icon>
+                <Trans i18nKey="sidebar.buttons.delete" />
+              </Button>
+            </li>
+          </ul>
+        </div>
+      </li>
+    );
+  }
+);
 
 export interface GroupedConversations {
-  title?: string
-  conversations: Conversation[]
+  title?: string;
+  conversations: Conversation[];
 }
 
-export function groupConversationsByDate(conversations: Conversation[], language = "default"): GroupedConversations[] {
-  const now = new Date()
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+export function groupConversationsByDate(
+  conversations: Conversation[],
+  language = 'default'
+): GroupedConversations[] {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-  const yesterday = new Date(today)
-  yesterday.setDate(today.getDate() - 1)
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
 
-  const sevenDaysAgo = new Date(today)
-  sevenDaysAgo.setDate(today.getDate() - 7)
+  const sevenDaysAgo = new Date(today);
+  sevenDaysAgo.setDate(today.getDate() - 7);
 
-  const thirtyDaysAgo = new Date(today)
-  thirtyDaysAgo.setDate(today.getDate() - 30)
+  const thirtyDaysAgo = new Date(today);
+  thirtyDaysAgo.setDate(today.getDate() - 30);
 
   const groups: { [key: string]: Conversation[] } = {
     Today: [],
     Yesterday: [],
-    "Previous 7 Days": [],
-    "Previous 30 Days": [],
-  }
-  const monthlyGroups: { [key: string]: Conversation[] } = {}
+    'Previous 7 Days': [],
+    'Previous 30 Days': [],
+  };
+  const monthlyGroups: { [key: string]: Conversation[] } = {};
 
-  const sortedConversations = [...conversations].sort((a, b) => b.lastModified - a.lastModified)
+  const sortedConversations = [...conversations].sort(
+    (a, b) => b.lastModified - a.lastModified
+  );
 
   for (const conv of sortedConversations) {
-    const convDate = new Date(conv.lastModified)
+    const convDate = new Date(conv.lastModified);
 
     if (convDate >= today) {
-      groups["Today"].push(conv)
+      groups['Today'].push(conv);
     } else if (convDate >= yesterday) {
-      groups["Yesterday"].push(conv)
+      groups['Yesterday'].push(conv);
     } else if (convDate >= sevenDaysAgo) {
-      groups["Previous 7 Days"].push(conv)
+      groups['Previous 7 Days'].push(conv);
     } else if (convDate >= thirtyDaysAgo) {
-      groups["Previous 30 Days"].push(conv)
+      groups['Previous 30 Days'].push(conv);
     } else {
-      const monthName = convDate.toLocaleString(language, { month: "long" })
-      const year = convDate.getFullYear()
-      const monthYearKey = `${monthName} ${year}`
+      const monthName = convDate.toLocaleString(language, { month: 'long' });
+      const year = convDate.getFullYear();
+      const monthYearKey = `${monthName} ${year}`;
       if (!monthlyGroups[monthYearKey]) {
-        monthlyGroups[monthYearKey] = []
+        monthlyGroups[monthYearKey] = [];
       }
-      monthlyGroups[monthYearKey].push(conv)
+      monthlyGroups[monthYearKey].push(conv);
     }
   }
 
-  const result: GroupedConversations[] = []
+  const result: GroupedConversations[] = [];
 
-  if (groups["Today"].length > 0) {
+  if (groups['Today'].length > 0) {
     result.push({
-      title: "Today",
-      conversations: groups["Today"],
-    })
+      title: 'Today',
+      conversations: groups['Today'],
+    });
   }
 
-  if (groups["Yesterday"].length > 0) {
+  if (groups['Yesterday'].length > 0) {
     result.push({
-      title: "Yesterday",
-      conversations: groups["Yesterday"],
-    })
+      title: 'Yesterday',
+      conversations: groups['Yesterday'],
+    });
   }
 
-  if (groups["Previous 7 Days"].length > 0) {
+  if (groups['Previous 7 Days'].length > 0) {
     result.push({
-      title: "Previous 7 Days",
-      conversations: groups["Previous 7 Days"],
-    })
+      title: 'Previous 7 Days',
+      conversations: groups['Previous 7 Days'],
+    });
   }
 
-  if (groups["Previous 30 Days"].length > 0) {
+  if (groups['Previous 30 Days'].length > 0) {
     result.push({
-      title: "Previous 30 Days",
-      conversations: groups["Previous 30 Days"],
-    })
+      title: 'Previous 30 Days',
+      conversations: groups['Previous 30 Days'],
+    });
   }
 
   const sortedMonthKeys = Object.keys(monthlyGroups).sort((a, b) => {
-    const dateA = new Date(a)
-    const dateB = new Date(b)
-    return dateB.getTime() - dateA.getTime()
-  })
+    const dateA = new Date(a);
+    const dateB = new Date(b);
+    return dateB.getTime() - dateA.getTime();
+  });
 
   for (const monthKey of sortedMonthKeys) {
     if (monthlyGroups[monthKey].length > 0) {
-      result.push({ title: monthKey, conversations: monthlyGroups[monthKey] })
+      result.push({ title: monthKey, conversations: monthlyGroups[monthKey] });
     }
   }
 
-  return result
+  return result;
 }

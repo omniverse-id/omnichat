@@ -810,7 +810,7 @@ export default function Settings() {
           aria-disabled={true}
         >
           <Dropdown
-            className="bg-base-200 w-full border-1 border-base-content/10 rounded-[8px] shadow-xs cursor-pointer p-2"
+            className="bg-muted w-full border-1 border-border/10 rounded-[8px] shadow-xs cursor-pointer p-2"
             entity="tab"
             options={settingTabs.map((tab, idx) => ({
               label: tab.title,

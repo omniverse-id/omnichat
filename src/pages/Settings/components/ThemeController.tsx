@@ -22,9 +22,9 @@ export function ThemeController() {
       <div className="flex gap-2 items-center ml-2">
         <span
           data-theme={currentTheme}
-          className="bg-base-100 grid shrink-0 grid-cols-2 gap-1 rounded-md p-1 shadow-sm"
+          className="bg-background grid shrink-0 grid-cols-2 gap-1 rounded-md p-1 shadow-sm"
         >
-          <div className="bg-base-content size-1 rounded-full"></div>{' '}
+          <div className="bg-foreground size-1 rounded-full"></div>{' '}
           <div className="bg-primary size-1 rounded-full"></div>{' '}
           <div className="bg-secondary size-1 rounded-full"></div>{' '}
           <div className="bg-accent size-1 rounded-full"></div>
@@ -38,9 +38,9 @@ export function ThemeController() {
     <div className="flex gap-2 items-center">
       <span
         data-theme={option.value}
-        className="bg-base-100 grid shrink-0 grid-cols-2 gap-0.5 rounded-md p-1 shadow-sm"
+        className="bg-background grid shrink-0 grid-cols-2 gap-0.5 rounded-md p-1 shadow-sm"
       >
-        <div className="bg-base-content size-1 rounded-full"></div>{' '}
+        <div className="bg-foreground size-1 rounded-full"></div>{' '}
         <div className="bg-primary size-1 rounded-full"></div>{' '}
         <div className="bg-secondary size-1 rounded-full"></div>{' '}
         <div className="bg-accent size-1 rounded-full"></div>

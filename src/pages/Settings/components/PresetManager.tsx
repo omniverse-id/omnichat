@@ -125,7 +125,7 @@ export function PresetManager({
           {presets
             .sort((a, b) => b.createdAt - a.createdAt)
             .map((preset) => (
-              <div key={preset.id} className="card bg-base-200 p-3 rounded-[8px]">
+              <div key={preset.id} className="card bg-muted p-3 rounded-[8px]">
                 <div className="flex items-center">
                   <div className="grow">
                     <h4 className="font-medium">{preset.name}</h4>
@@ -168,7 +168,7 @@ export function PresetManager({
                         aria-label="More actions"
                         role="menu"
                         tabIndex={-1}
-                        className="dropdown-content menu bg-base-100 max-w-60 p-2 shadow-2xl rounded-[8px]"
+                        className="dropdown-content menu bg-background max-w-60 p-2 shadow-2xl rounded-[8px]"
                       >
                         <li role="menuitem" tabIndex={0}>
                           <Button

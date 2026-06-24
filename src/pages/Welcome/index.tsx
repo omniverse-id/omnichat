@@ -63,7 +63,7 @@ export default function WelcomeScreen() {
           {samplePrompts.map((text) => (
             <Button
               key={text}
-              className="h-auto bg-base-200 font-medium rounded-xl p-2"
+              className="h-auto bg-muted font-medium rounded-xl p-2"
               onClick={() => {
                 navigate(`/chat?q=${encodeURIComponent(text)}`, {});
               }}

@@ -100,7 +100,7 @@ export const ChatInput = memo(
 
     return (
       <div
-        className="group shrink-0 w-full md:max-w-md focus-within:md:max-w-2xl lg:max-w-lg focus-within:lg:max-w-3xl xl:max-w-3xl focus-within:xl:max-w-4xl bg-base-100 mx-auto p-1 md:p-2"
+        className="group shrink-0 w-full md:max-w-md focus-within:md:max-w-2xl lg:max-w-lg focus-within:lg:max-w-3xl xl:max-w-3xl focus-within:xl:max-w-4xl bg-background mx-auto p-1 md:p-2"
         aria-label={t('chatInput.ariaLabels.chatInput')}
       >
         <DropzoneArea
@@ -109,7 +109,7 @@ export const ChatInput = memo(
           disabled={isPending}
         >
           <div
-            className="bg-base-200 flex flex-col outline-0 focus-within:outline-1 focus-within:outline-gray-200 rounded-lg p-2"
+            className="bg-muted flex flex-col outline-0 focus-within:outline-1 focus-within:outline-gray-200 rounded-lg p-2"
             tabIndex={0}
           >
             <AutoSizingTextArea

@@ -312,7 +312,7 @@ export default memo(function ChatMessage({
 
                 <div
                   tabIndex={0}
-                  className="dropdown-content rounded-box bg-base-100 z-10 w-48 px-4 py-2 shadow mt-4 text-sm text-left"
+                  className="dropdown-content rounded-box bg-background z-10 w-48 px-4 py-2 shadow mt-4 text-sm text-left"
                 >
                   {(timings.prompt_n || timings.prompt_ms) && (
                     <>
@@ -569,10 +569,10 @@ const ThinkingSection = memo(function ThinkingSection({
       </CollapsibleTrigger>
 
       <CollapsibleContent
-        className="text-base-content/70 text-sm p-1"
+        className="text-foreground/70 text-sm p-1"
         aria-description={t('chatScreen.ariaLabels.thoughtContent')}
       >
-        <div className="border-l-2 border-base-content/20 pl-4 mb-4">
+        <div className="border-l-2 border-border/20 pl-4 mb-4">
           {showRawAssistantMessage ? (
             <div className="whitespace-pre-wrap">{content}</div>
           ) : (

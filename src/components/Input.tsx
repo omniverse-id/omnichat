@@ -1,16 +1,17 @@
-import { cva, VariantProps } from 'class-variance-authority';
 import * as React from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '../utils';
+import { Input as ShadcnInput } from './ui/input';
 
 const inputVariants = cva('', {
   variants: {
     variant: {
       text: '',
       file: '',
-      input: 'input',
-      bordered: 'input input-bordered',
-      toggle: 'toggle',
-      range: 'range',
+      input: '',
+      bordered: 'border border-input',
+      toggle: '',
+      range: '',
     },
     size: {},
   },
@@ -39,7 +40,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <input
+      <ShadcnInput
         className={cn(inputVariants({ variant, size, className }))}
         ref={ref}
         type={type}

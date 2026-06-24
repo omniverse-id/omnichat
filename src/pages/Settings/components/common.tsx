@@ -256,7 +256,7 @@ export function SettingsModalDropdown({
         <div className="form-control flex flex-col justify-center mb-3">
           <div className="font-bold mb-1 md:hidden">{label}</div>
           <Label
-            className={`${disabled ? 'bg-base-200' : ''} rounded-[8px]`}
+            className={`${disabled ? 'bg-muted' : ''} rounded-[8px]`}
             variant="input-bordered"
           >
             <div className="font-bold hidden md:block">{label}</div>

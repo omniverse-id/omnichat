@@ -1,4 +1,3 @@
-import daisyuiThemes from 'daisyui/theme/object';
 import { Configuration, InferenceProviders } from '../types';
 import baseUrl from './baseUrl';
 import defaultConfig from './config-default.json';
@@ -24,19 +23,12 @@ export const CONFIG_DEFAULT: Readonly<Configuration> =
   Object.freeze(defaultConfig);
 
 /**
- * List of available UI themes supported by DaisyUI
+ * List of available UI themes
  * @constant
  * @type {readonly string[]}
- * @description Array of theme names with 'light' and 'dark' always at the beginning,
- * followed by all other DaisyUI themes excluding light/dark
+ * @description Array of theme names with 'light' and 'dark' always at the beginning
  */
-export const THEMES: readonly string[] = Object.freeze(
-  ['light', 'dark', 'omni']
-    // make sure light & dark are always at the beginning
-    .concat(
-      Object.keys(daisyuiThemes).filter((t) => t !== 'light' && t !== 'dark')
-    )
-);
+export const THEMES: readonly string[] = Object.freeze(['light', 'dark']);
 
 /**
  * List of syntax highlighting themes supported by Highlight.js

@@ -24,6 +24,7 @@ export interface DropdownProps<T> {
   renderOption: (option: T) => ReactNode;
   isSelected: (option: T) => boolean;
   onSelect: (option: T) => void;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 }
 /**
  * A customizable dropdown component that supports filtering and custom rendering of options.
@@ -45,15 +46,13 @@ export function Dropdown<T extends DropdownOption>({
   filterable = false,
   hideChevron = false,
   optionsSize = 'medium',
-  align = 'end',
-  placement = 'bottom',
   currentValue,
   renderOption,
   isSelected,
   onSelect,
 }: DropdownProps<T>) {
   const { t } = useTranslation();
-  const dropdownRef = useRef<HTMLDetailsElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<string>('');
   const isDisabled = useMemo<boolean>(() => options.length < 2, [options]);
   const filteredOptions = useMemo(() => {
@@ -103,15 +102,13 @@ export function Dropdown<T extends DropdownOption>({
 
       {/* dropdown */}
       {!isDisabled && (
-        <details
-          ref={dropdownRef}
-          className={`grow dropdown dropdown-${align} dropdown-${placement}`}
-        >
-          <summary
+        <div ref={dropdownRef} className={`grow relative`}>
+          <button
             className="grow truncate flex justify-between items-center cursor-pointer"
             title={entity}
             aria-label={t('dropdown.chooseEntity', { entity })}
             aria-haspopup="listbox"
+            onClick={() => {}}
           >
             {currentValue}
             {!hideChevron && (
@@ -119,13 +116,13 @@ export function Dropdown<T extends DropdownOption>({
                 <LuChevronDown />
               </Icon>
             )}
-          </summary>
+          </button>
 
           {/* dropdown content */}
-          <div className="dropdown-content rounded-box bg-base-100 max-w-60 p-2 shadow-2xl">
+          <div className="absolute rounded-lg bg-card border border-border max-w-60 p-2 shadow-lg hidden group-hover:block z-50 right-0 top-full mt-1">
             {filterable && (
               <Input
-                className="input-sm w-full focus:outline-base-content/30 p-2 mb-2 rounded-[8px]"
+                className="w-full p-2 mb-2 rounded-lg text-sm"
                 variant="input"
                 placeholder={t('dropdown.searchPlaceholder', { entity })}
                 value={filter}
@@ -151,9 +148,9 @@ export function Dropdown<T extends DropdownOption>({
                     <Button
                       className={classNames({
                         'w-full flex gap-2 justify-start font-normal px-2': true,
-                        'rounded-[8px]': true,
-                        'btn-sm': optionsSize === 'small',
-                        'btn-active': isSelected(option),
+                        'rounded-lg': true,
+                        'h-7 text-sm': optionsSize === 'small',
+                        'bg-muted': isSelected(option),
                       })}
                       variant="ghost"
                       onClick={handleSelect(option)}
@@ -166,7 +163,7 @@ export function Dropdown<T extends DropdownOption>({
               </ul>
             )}
           </div>
-        </details>
+        </div>
       )}
     </div>
   );

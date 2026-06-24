@@ -187,7 +187,7 @@ export default function CanvasPyInterpreter() {
               {showStopBtn && (
                 <Button
                   size="small"
-                  className="bg-base-100 ml-2"
+                  className="bg-background ml-2"
                   title={t('codeRunner.buttons.stop')}
                   onClick={() => interruptFn?.()}
                 >

@@ -2,11 +2,17 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import loadVersion from 'vite-plugin-package-version';
 import { VitePWA } from 'vite-plugin-pwa';
+import path from 'path';
 
 // Pastikan semua nama vendor di sini benar-benar cocok dengan nama folder di node_modules.
 const vendors = ['highlight', 'katex', 'pdfjs', 'radix-ui', 'react-icons'];
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   plugins: [
     react(),
     loadVersion(),
