@@ -101,10 +101,10 @@ html {
     @apply bg-muted text-foreground;
   }
   th {
-    @apply border border-base-300 px-4 py-2 text-left font-semibold;
+    @apply border border-border px-4 py-2 text-left font-semibold;
   }
   td {
-    @apply border border-base-300 px-4 py-2 align-top;
+    @apply border border-border px-4 py-2 align-top;
   }
   tbody tr:nth-child(even) {
     @apply bg-background;
