@@ -777,11 +777,11 @@ export default function Settings() {
   };
 
   return (
-    <div className="flex flex-col h-full py-4">
-      <div className="grow flex flex-col md:flex-row">
+    <div className="flex flex-col h-full py-6">
+      <div className="grow flex flex-col md:flex-row gap-8">
         {/* Left panel, showing sections - Desktop version */}
         <div
-          className="hidden md:flex flex-col items-stretch px-4 border-r-2 border-base-200"
+          className="hidden md:flex flex-col items-stretch px-6 border-r border-border w-64 flex-shrink-0"
           role="complementary"
           aria-description="Settings sections"
           tabIndex={0}
@@ -789,11 +789,10 @@ export default function Settings() {
           {settingTabs.map((tab, idx) => (
             <Button
               key={idx}
-              variant="ghost"
+              variant={tabIdx === idx ? 'default' : 'ghost'}
               className={classNames({
-                'justify-start font-normal w-44 mb-1': true,
-                'rounded-[8px]': true, // Add rounded-lg
-                'btn-active': tabIdx === idx,
+                'justify-start font-normal py-2.5 px-4 mb-2 transition-colors': true,
+                'bg-primary text-primary-foreground': tabIdx === idx,
               })}
               onClick={() => setTabIdx(idx)}
               dir="auto"
@@ -806,11 +805,11 @@ export default function Settings() {
         {/* Left panel, showing sections - Mobile version */}
         {/* This menu is skipped on a11y, otherwise it's repeated the desktop version */}
         <div
-          className="md:hidden flex flex-row gap-2 mb-4 px-4"
+          className="md:hidden flex flex-row gap-3 mb-4 px-4"
           aria-disabled={true}
         >
           <Dropdown
-            className="bg-muted w-full border-1 border-border/10 rounded-[8px] shadow-xs cursor-pointer p-2"
+            className="bg-card w-full border border-border rounded-lg shadow-sm cursor-pointer p-2.5"
             entity="tab"
             options={settingTabs.map((tab, idx) => ({
               label: tab.title,
@@ -824,10 +823,10 @@ export default function Settings() {
         </div>
 
         {/* Right panel, showing setting fields */}
-        <div className="grow max-h-[calc(100vh-13rem)] md:max-h-[calc(100vh-10rem)] overflow-y-auto px-6 sm:px-4">
+        <div className="grow max-h-[calc(100vh-13rem)] md:max-h-[calc(100vh-10rem)] overflow-y-auto px-6 sm:px-4 md:px-0">
           {settingTabs[tabIdx].fields.map(mapFieldToElement)}
 
-          <p className="opacity-40 text-sm mt-8">
+          <p className="text-muted-foreground text-xs mt-8 leading-relaxed">
             <Trans
               i18nKey="settings.footer.version"
               values={{ version: import.meta.env.PACKAGE_VERSION }}
@@ -838,19 +837,27 @@ export default function Settings() {
         </div>
       </div>
 
-      <div className="sticky bottom-4 flex gap-2 max-md:justify-center mt-4">
-        <div className="hidden md:block w-54 h-10" />
+      <div className="sticky bottom-0 flex gap-3 max-md:justify-center mt-6 pt-4 border-t border-border bg-background/95 backdrop-blur-sm">
+        <div className="hidden md:block w-64 flex-shrink-0" />
         <Button
-          variant="neutral"
-          className="rounded-[8px]" // Add rounded-lg
+          variant="default"
+          className="flex-1 md:flex-none"
           onClick={() => handleSave(localConfig)}
         >
           <Trans i18nKey="settings.actionButtons.saveBtnLabel" />
         </Button>
-        <Button className="rounded-[8px]" onClick={onClose}>
+        <Button
+          variant="neutral"
+          className="flex-1 md:flex-none"
+          onClick={onClose}
+        >
           <Trans i18nKey="settings.actionButtons.cancelBtnLabel" />
         </Button>
-        <Button className="rounded-[8px]" onClick={resetConfig}>
+        <Button
+          variant="ghost"
+          className="flex-1 md:flex-none"
+          onClick={resetConfig}
+        >
           <Trans i18nKey="settings.actionButtons.resetBtnLabel" />
         </Button>
       </div>

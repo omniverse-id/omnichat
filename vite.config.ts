@@ -130,12 +130,7 @@ export default defineConfig({
     }),
   ],
   build: {
-    // 1. OPSI PALING CEPAT: Menyesuaikan batas peringatan chunk.
-    // Peringatan akan muncul jika ukuran chunk melebihi 1000 KiB (1 MB).
-    // Ubah sesuai kebutuhan Anda, misal: 1000, 1500, atau 2000.
-    // PERHATIAN: Ini HANYA menyembunyikan peringatan, tidak mengurangi ukuran file sebenarnya.
     chunkSizeWarningLimit: 1000,
-
     rollupOptions: {
       output: {
         entryFileNames: 'js/[name]-[hash].js',
@@ -154,30 +149,24 @@ export default defineConfig({
           }
           return 'assets/[name].[ext]';
         },
-        // 2. OPSI OPTIMASI: Meningkatkan manualChunks
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Coba mencocokkan nama vendor secara lebih ketat
             const vendorMatch = vendors.find((vendor) =>
               id.includes(`node_modules/${vendor}`)
             );
-
-            // Jika modul adalah salah satu dari vendor yang ditentukan, beri nama chunk sesuai vendor.
-            // Jika bukan vendor yang ditentukan, masukkan ke chunk 'vendor' umum.
             if (vendorMatch) {
               return vendorMatch;
             }
-
-            // Jika bukan vendor yang ditentukan, bagi menjadi 'vendor' umum.
-            // Anda juga bisa membaginya berdasarkan awal nama, misal:
-            // return name; // Ini akan membuat chunk terpisah untuk setiap paket (Bisa jadi terlalu banyak!)
-            return 'vendor'; // Mempertahankan chunk 'vendor' umum
+            return 'vendor';
           }
         },
       },
     },
   },
   server: {
+    // MENYEMBUHKAN ERROR "Blocked request":
+    // Mengizinkan domain sandbox vercel atau sub-domain vercel apa pun untuk mengakses server development Vite
+    allowedHosts: ['.vercel.run', 'sb-7fk18t8uepts.vercel.run'],
     proxy: {
       '/v1': 'http://localhost:8080',
       '/props': 'http://localhost:8080',
